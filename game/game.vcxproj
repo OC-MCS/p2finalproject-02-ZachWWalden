@@ -146,10 +146,30 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Barrier.cpp" />
+    <ClCompile Include="CortezMGR.cpp" />
+    <ClCompile Include="CortezUI.cpp" />
     <ClCompile Include="game.cpp" />
+    <ClCompile Include="gameMGR.cpp" />
+    <ClCompile Include="gameUI.cpp" />
+    <ClCompile Include="MooCow.cpp" />
+    <ClCompile Include="OcasioCortez.cpp" />
+    <ClCompile Include="Projectile.cpp" />
+    <ClCompile Include="ProjectileMGR.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Readme.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Barrier.h" />
+    <ClInclude Include="CortezMGR.h" />
+    <ClInclude Include="CortezUI.h" />
+    <ClInclude Include="gameMGR.h" />
+    <ClInclude Include="gameUI.h" />
+    <ClInclude Include="MooCow.h" />
+    <ClInclude Include="OcasioCortez.h" />
+    <ClInclude Include="Projectile.h" />
+    <ClInclude Include="ProjectileMGR.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
