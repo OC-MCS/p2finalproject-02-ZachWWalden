@@ -4,7 +4,7 @@ using namespace sf;
 
 
 
-enum ProjectileEnum{CowFart, CommunistTurd};
+enum ProjectileEnum{COWFART, COMMUNISTTURD};
 class ProjectileMGR;
 
 class Projectile
@@ -17,8 +17,12 @@ public:
 private:
 public:
 	Projectile();
+	Projectile(ProjectileEnum);
 	ProjectileEnum getProtType();
 	virtual void draw(RenderWindow &win) = 0;
+	virtual void setPos(Vector2f newPos) = 0;
+	virtual Vector2f getPos() = 0;
+	virtual FloatRect getGlobalBounds() = 0;
 };
 
 
@@ -26,26 +30,32 @@ class CowFart : public Projectile
 {
 // data
 private:
-	Texture fart;
+	Sprite cowFart;
 public:
 // functions
 private:
 public:
 	CowFart();
-	CowFart(ProjectileMGR *mgr);
+	CowFart(Vector2f pos, Texture&, ProjectileEnum);
 	void draw(RenderWindow &win);
+	void setPos(Vector2f newPos);
+	Vector2f getPos();
+	FloatRect getGlobalBounds();
 };
 
 class CommunistTurd : public Projectile
 {
 // data
 private:
-	Texture commieTurd;
+	Sprite commieTurd;
 public:
 // functions
 private:
 public:
 	CommunistTurd();
-	CommunistTurd(ProjectileMGR* mgr);
+	CommunistTurd(Vector2f pos, Texture&, ProjectileEnum);
 	void draw(RenderWindow &win);
+	void setPos(Vector2f newPos);
+	Vector2f getPos();
+	FloatRect getGlobalBounds();
 };

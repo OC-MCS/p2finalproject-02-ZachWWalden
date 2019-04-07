@@ -3,21 +3,19 @@
 
 void OcasioCortez::handleAnimation()
 {
-	if (animationCount > 60)
+	if (state == BOMBING && animationCount == 40)
 	{
-		animationCount = 0;
-		state = BOMBING;
 		cortez.setTexture(mgrPtr->getTextTwo());
+		animationCount--;
 	}
-	if (state == BOMBING && animationCount > 30)
+	if ((animationCount != 40 || animationCount != 0) && state == BOMBING)
+		animationCount--;
+	if (animationCount == 0)
 	{
+		animationCount = 40;
 		state = NORMAL;
 		cortez.setTexture(mgrPtr->getTextOne());
 	}
-
-	
-	if (state == DEAD)
-		cortez.setTexture(mgrPtr->getTextThree());
 }
 
 OcasioCortez::OcasioCortez(CortezMGR *Mgr, Vector2f pos)
@@ -33,5 +31,24 @@ void OcasioCortez::draw(RenderWindow & win)
 {
 	handleAnimation();
 	win.draw(cortez);
-	animationCount++;
+}
+
+FloatRect OcasioCortez::getGlobalBounds()
+{
+	return cortez.getGlobalBounds();
+}
+
+void OcasioCortez::setState(CortexEnum newState)
+{
+	state = newState;
+}
+
+Vector2f OcasioCortez::getPosition()
+{
+	return cortez.getPosition();
+}
+
+void OcasioCortez::setPosition(Vector2f newPos)
+{
+	cortez.setPosition(newPos);
 }

@@ -152,10 +152,12 @@
     <ClCompile Include="game.cpp" />
     <ClCompile Include="gameMGR.cpp" />
     <ClCompile Include="gameUI.cpp" />
+    <ClCompile Include="Level.cpp" />
     <ClCompile Include="MooCow.cpp" />
     <ClCompile Include="OcasioCortez.cpp" />
     <ClCompile Include="Projectile.cpp" />
     <ClCompile Include="ProjectileMGR.cpp" />
+    <ClCompile Include="ProjectileUI.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="Readme.txt" />
@@ -166,10 +168,12 @@
     <ClInclude Include="CortezUI.h" />
     <ClInclude Include="gameMGR.h" />
     <ClInclude Include="gameUI.h" />
+    <ClInclude Include="Level.h" />
     <ClInclude Include="MooCow.h" />
     <ClInclude Include="OcasioCortez.h" />
     <ClInclude Include="Projectile.h" />
     <ClInclude Include="ProjectileMGR.h" />
+    <ClInclude Include="ProjectileUI.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

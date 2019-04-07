@@ -51,3 +51,13 @@ void MooCow::draw(RenderWindow & win)
 {
 	win.draw(cow);
 }
+
+Vector2f MooCow::getPos()
+{
+	return cow.getPosition();
+}
+
+FloatRect MooCow::getGlobalBounds()
+{
+	return cow.getGlobalBounds();
+}

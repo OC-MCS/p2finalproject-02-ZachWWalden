@@ -1,6 +1,6 @@
 #include "CortezMGR.h"
 
-CortezMGR::CortezMGR()
+CortezMGR::CortezMGR(Level* newLevel)
 {
 	if (!cortezTextOne.loadFromFile("cortez_texture_one.png"))
 	{
@@ -10,10 +10,7 @@ CortezMGR::CortezMGR()
 	{
 		// error
 	}
-	if (!cortezTextThree.loadFromFile("cortez_texture_three.png"))
-	{
-		// error
-	}
+	curLevel = newLevel;
 
 	OcasioCortez* ptr;
 	//intialize list of cortez enemies
@@ -22,10 +19,6 @@ CortezMGR::CortezMGR()
 		ptr = new OcasioCortez(this, Vector2f(i * 80.0f, 50.0f));
 		cortezList.push_back(ptr);
 	}
-}
-
-void CortezMGR::addProjectile()
-{
 }
 
 Texture &CortezMGR::getTextOne()
@@ -38,12 +31,29 @@ Texture &CortezMGR::getTextTwo()
 	return cortezTextTwo;
 }
 
-Texture &CortezMGR::getTextThree()
+void CortezMGR::moveCortez()
 {
-	return cortezTextThree;
+	Vector2f newPos;
+	list<OcasioCortez*>::iterator iter;
+	for (iter = cortezList.begin(); iter != cortezList.end(); iter++)
+	{
+		newPos = (*iter)->getPosition();
+		newPos.y += curLevel->getMoveSpeed();
+		(*iter)->setPosition(newPos);
+	}
 }
 
 list<OcasioCortez*>* CortezMGR::getCortezPtr()
 {
 	return &cortezList;
+}
+
+void CortezMGR::setLevel(Level* newLevel)
+{
+	curLevel = newLevel;
+}
+
+Level * CortezMGR::getLevel()
+{
+	return curLevel;
 }

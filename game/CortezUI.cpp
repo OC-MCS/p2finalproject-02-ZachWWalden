@@ -13,4 +13,5 @@ void CortezUI::draw(RenderWindow & win)
 	{
 		(*iter)->draw(win);
 	}
+	mgrPtr->moveCortez();
 }

@@ -4,10 +4,11 @@
 // The code below is the original code for our first graphics
 // project (moving the little green ship). 
 //========================================================
+#pragma once
 #include "MooCow.h"
-#include "OcasioCortez.h"
-#include "CortezMGR.h"
 #include "CortezUI.h"
+#include "ProjectileUI.h"
+#include "Level.h"
 #include <iostream>
 using namespace std;
 #include <SFML/Graphics.hpp>
@@ -37,9 +38,12 @@ int main()
 	// load textures from file into memory. This doesn't display anything yet.
 	// Notice we do this *before* going into animation loop.
 	MooCow cow(window);
-	CortezMGR cortezMgr;
+	Level levelOne(400L, .1f);
+	CortezMGR cortezMgr(&levelOne);
 	CortezUI cortezUI(&cortezMgr);
 
+	ProjectileMGR protMgr(&cortezMgr);
+	ProjectileUI protUI(&protMgr);
 	Texture starsTexture;
 	if (!starsTexture.loadFromFile("Kicked_marx.png"))
 	{
@@ -56,7 +60,7 @@ int main()
 	background.setScale(1.5, 1.5);
 
 	// create sprite and texture it
-	
+	Vector2f pos;
 
 	// initial position of the ship will be approx middle of screen
 
@@ -66,7 +70,7 @@ int main()
 		// For now, we just need this so we can click on the window and close it
 		Event event;
 
-		while (window.pollEvent(event))
+  		while (window.pollEvent(event))
 		{
 			// "close requested" event: we close the window
 			if (event.type == Event::Closed)
@@ -75,7 +79,10 @@ int main()
 			{
 				if (event.key.code == Keyboard::Space)
 				{
-					// handle space bar
+					pos = cow.getPos();
+					pos.y -= 28.0f;
+					pos.x += 6.0f;
+   					protMgr.addProjectile(pos, COWFART);
 				}
 				
 			}
@@ -92,11 +99,12 @@ int main()
 		window.draw(background);
 
 		cow.moveCow();
-
+		protMgr.checkCollision(cow);
 		// draw the ship on top of background 
 		// (the ship from previous frame was erased when we drew background)
 		cow.draw(window);
 		cortezUI.draw(window);
+		protUI.draw(window);
 		// end the current frame; this makes everything that we have 
 		// already "drawn" actually show up on the screen
 		window.display();
@@ -105,7 +113,7 @@ int main()
 		// Now control will go back to the top of the animation loop
 		// to build the next frame. Since we begin by drawing the
 		// background, each frame is rebuilt from scratch.
-
+		
 	} // end body of animation loop
 
 	return 0;

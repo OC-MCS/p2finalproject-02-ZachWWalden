@@ -25,5 +25,7 @@ public:
 	MooCow(RenderWindow &win);
 	void moveCow();
 	void draw(RenderWindow &win);
+	Vector2f getPos();
+	FloatRect getGlobalBounds();
 	
 };

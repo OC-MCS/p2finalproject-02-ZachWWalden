@@ -12,19 +12,21 @@ class CortezMGR
 {
 // data
 private:
-	Texture cortezTextOne, cortezTextTwo, cortezTextThree;
+	Texture cortezTextOne, cortezTextTwo;
 	list<OcasioCortez*> cortezList;
-	ProjectileMGR* protMgrPtr;
+	Level* curLevel;
 public:
 // functions
 private:
 public:
-	CortezMGR();
-	void addProjectile();
+	CortezMGR(Level* newLevel);
 	Texture &getTextOne();
 	Texture &getTextTwo();
-	Texture &getTextThree();
+	void moveCortez();
 
 	list<OcasioCortez*>* getCortezPtr();
+
+	void setLevel(Level *newLevel);
+	Level* getLevel();
 
 };

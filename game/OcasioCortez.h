@@ -1,4 +1,5 @@
 #pragma once
+#include "Level.h"
 
 #include <SFML/Graphics.hpp>
 using namespace sf;
@@ -12,8 +13,7 @@ class OcasioCortez
 // data
 private:
 	Sprite cortez;
-	Texture cortezTexture;
-	int animationCount = 0;
+	int animationCount = 40;
 	CortezMGR *mgrPtr;
 	CortexEnum state = NORMAL;
 public:
@@ -23,6 +23,10 @@ private:
 public:
 	OcasioCortez(CortezMGR *, Vector2f);
 	void draw(RenderWindow &win);
+	FloatRect getGlobalBounds();
+	void setState(CortexEnum);
+	Vector2f getPosition();
+	void setPosition(Vector2f newPos);
 	
 
 };

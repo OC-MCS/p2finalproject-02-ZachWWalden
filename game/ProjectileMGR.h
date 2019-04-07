@@ -1,6 +1,10 @@
 #pragma once
 #include "Projectile.h"
+#include "MooCow.h"
+#include "OcasioCortez.h"
+#include "gameMGR.h"
 #include <list>
+#include <iostream>
 using namespace std;
 
 class ProjectileMGR
@@ -8,14 +12,18 @@ class ProjectileMGR
 // data
 private:
 	list<Projectile*> projectileList;
-	Texture cowFartOne, cowFartTwo, cowFartThree;
-	Texture communistTurdOne, communistTurdTwo;
+	Texture cowFart;
+	Texture communistTurd;
+	CortezMGR* cortezMgr;
+	Level* curLevel;
 public:
 // functions
 private:
-	void handleCollision();
+	void handleBombing();
 public:
-	ProjectileMGR();
+	ProjectileMGR(CortezMGR* cortezPtr);
 	void addProjectile(Vector2f startPos, ProjectileEnum protType);
-	void checkCollision();
+	void checkCollision(MooCow& cow);
+	list<Projectile*>* getProjPtr();
+	void moveProjectiles();
 };
