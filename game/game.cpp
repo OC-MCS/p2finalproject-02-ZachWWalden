@@ -8,7 +8,7 @@
 #include "MooCow.h"
 #include "CortezUI.h"
 #include "ProjectileUI.h"
-#include "Level.h"
+#include "gameUI.h"
 #include <iostream>
 using namespace std;
 #include <SFML/Graphics.hpp>
@@ -38,11 +38,15 @@ int main()
 	// load textures from file into memory. This doesn't display anything yet.
 	// Notice we do this *before* going into animation loop.
 	MooCow cow(window);
-	Level levelOne(400L, .1f);
-	CortezMGR cortezMgr(&levelOne);
+	
+	GameMgr gameMgr(STARTUP);
+
+	GameUI gameUI(&gameMgr);
+
+	CortezMGR cortezMgr(gameMgr.getCurLevel());
 	CortezUI cortezUI(&cortezMgr);
 
-	ProjectileMGR protMgr(&cortezMgr);
+	ProjectileMGR protMgr(&cortezMgr, &gameMgr);
 	ProjectileUI protUI(&protMgr);
 	Texture starsTexture;
 	if (!starsTexture.loadFromFile("Kicked_marx.png"))
@@ -86,6 +90,13 @@ int main()
 				}
 				
 			}
+			else if (event.type == Event::MouseButtonReleased)
+			{
+				// maybe they just clicked on one of the settings "buttons"
+				// check for this and handle it.
+				Vector2f mousePos = window.mapPixelToCoords(Mouse::getPosition(window));
+				gameUI.handleMouseUp(mousePos);
+			}
 		}
 
 		//===========================================================
@@ -102,9 +113,15 @@ int main()
 		protMgr.checkCollision(cow);
 		// draw the ship on top of background 
 		// (the ship from previous frame was erased when we drew background)
-		cow.draw(window);
-		cortezUI.draw(window);
-		protUI.draw(window);
+		if (gameMgr.getCurState() == INPROGRESS)
+		{
+			cow.moveCow();
+			protMgr.checkCollision(cow);
+			cow.draw(window);
+			cortezUI.draw(window);
+			protUI.draw(window);
+		}
+		gameUI.draw(window);
 		// end the current frame; this makes everything that we have 
 		// already "drawn" actually show up on the screen
 		window.display();

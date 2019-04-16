@@ -2,19 +2,28 @@
 #include "Level.h"
 #include <list>
 using namespace std;
-enum GameStateEnum{INPROGRESS, PAUSED, STARTUP};
+enum GameStateEnum{INPROGRESS, PAUSED, STARTUP, OVER, RESESTNOW};
 class GameMgr
 {
 // data
 private:
 	list<Level*> levelList;
-	int currentLevel = 1;
-	GameStateEnum gameState = STARTUP;
+	list<Level*>::iterator levelIter;
+	GameStateEnum gameState;
+	int livesLeft = 3;
 public:
 
 // functions
 private:
 public:
-	GameMgr();
+	GameMgr(GameStateEnum);
+	void setGameState(GameStateEnum);
+	GameStateEnum getCurState();
+	void addLevel(Level *newLevel);
+	Level* getCurLevel();
+	void decrementLives();
+	int getLives();
+	void incrementLevel();
+	void resetLevel();
 
 };

@@ -29,6 +29,7 @@ OcasioCortez::OcasioCortez(CortezMGR *Mgr, Vector2f pos)
 
 void OcasioCortez::draw(RenderWindow & win)
 {
+
 	handleAnimation();
 	win.draw(cortez);
 }

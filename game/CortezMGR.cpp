@@ -10,15 +10,8 @@ CortezMGR::CortezMGR(Level* newLevel)
 	{
 		// error
 	}
-	curLevel = newLevel;
-
-	OcasioCortez* ptr;
-	//intialize list of cortez enemies
-	for (int i = 0; i < 10; i++)
-	{
-		ptr = new OcasioCortez(this, Vector2f(i * 80.0f, 50.0f));
-		cortezList.push_back(ptr);
-	}
+	
+	initializeLevel(newLevel);
 }
 
 Texture &CortezMGR::getTextOne()
@@ -56,4 +49,29 @@ void CortezMGR::setLevel(Level* newLevel)
 Level * CortezMGR::getLevel()
 {
 	return curLevel;
+}
+
+void CortezMGR::initializeLevel(Level* newLevel)
+{
+	curLevel = newLevel;
+
+	deleteOcasios();
+
+	OcasioCortez* ptr;
+	//intialize list of cortez enemies
+	for (int i = 0; i < 10; i++)
+	{
+		ptr = new OcasioCortez(this, Vector2f(i * 80.0f, 50.0f));
+		cortezList.push_back(ptr);
+	}
+}
+
+void CortezMGR::deleteOcasios()
+{
+	list<OcasioCortez*>::iterator iter;
+	for (iter = cortezList.begin(); iter != cortezList.end();)
+	{
+		delete (*iter);
+		iter = cortezList.erase(iter);
+	}
 }

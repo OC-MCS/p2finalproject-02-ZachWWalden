@@ -9,7 +9,7 @@ void ProjectileMGR::handleBombing()
 	list<OcasioCortez*>::iterator cortezEND = listPtr->end();
 	for (cortezIter = listPtr->begin(); cortezIter != cortezEND; cortezIter++)
 	{
-		if (((rand() %  curLevel->getDropRate()) + 1) == 57L)
+		if (((rand() % gameMGR->getCurLevel()->getDropRate()) + 1) == 1L)
 		{
 			newBombPos = (*cortezIter)->getPosition();
 			(*cortezIter)->setState(BOMBING);
@@ -21,7 +21,17 @@ void ProjectileMGR::handleBombing()
 
 }
 
-ProjectileMGR::ProjectileMGR(CortezMGR* cortezPtr)
+void ProjectileMGR::deleteProjectiles()
+{
+	list<Projectile*>::iterator iter;
+	for (iter = projectileList.begin(); iter != projectileList.end();)
+	{
+		delete (*iter);
+		iter = projectileList.erase(iter);
+	}
+}
+
+ProjectileMGR::ProjectileMGR(CortezMGR* cortezPtr, GameMgr* gameMgr)
 {
 	if (!cowFart.loadFromFile("cow_fart.png"))
 	{
@@ -34,6 +44,7 @@ ProjectileMGR::ProjectileMGR(CortezMGR* cortezPtr)
 	srand(time(0));
 	cortezMgr = cortezPtr;
 	curLevel = cortezMgr->getLevel();
+	gameMGR = gameMgr;
 }
 
 void ProjectileMGR::addProjectile(Vector2f startPos, ProjectileEnum protType)
@@ -57,16 +68,25 @@ void ProjectileMGR::checkCollision(MooCow& cow)
 	list<Projectile*>::iterator iter;
 	list<Projectile*>::iterator iterEND = projectileList.end();
 
-	for (iter = projectileList.begin(); iter != iterEND;)
+	for (iter = projectileList.begin(); !protlistEmpty && iter != iterEND;)
 	{
 		Vector2f newPos = (*iter)->getPos();
 		if ((*iter)->getProtType() == COMMUNISTTURD)
 		{
 			if (cow.getGlobalBounds().intersects((*iter)->getGlobalBounds()))
 			{
+				if (gameMGR->getLives() == 0 && gameMGR->getCurLevel()->getLevelNumber() == 3)
+				{
+					gameMGR->resetLevel();
+					gameMGR->setGameState(OVER);
+				}
+				gameMGR->decrementLives();
 				delete (*iter);
 				iter = projectileList.erase(iter);
 				deleted = true;
+				cortezMgr->initializeLevel(gameMGR->getCurLevel());
+				deleteProjectiles();
+				protlistEmpty = true;
 			}
 		}
 		else 
@@ -91,6 +111,17 @@ void ProjectileMGR::checkCollision(MooCow& cow)
 				if (!deleted)
 					cortezIter++;
 				deleted = false;
+			}
+			if (listPtr->begin() == listPtr->end())
+			{
+				if(gameMGR->getCurLevel()->getLevelNumber() == 3)
+					gameMGR->setGameState(OVER);
+				if (gameMGR->getCurState() != OVER)
+					gameMGR->incrementLevel();
+				cortezMgr->initializeLevel(gameMGR->getCurLevel());
+				deleteProjectiles();
+				gameMGR->resetLevel();
+				protlistEmpty = true;
 			}
 		}
 		if (!deleted && !protlistEmpty)

@@ -18,6 +18,7 @@ private:
 public:
 // functions
 private:
+	void deleteOcasios();
 public:
 	CortezMGR(Level* newLevel);
 	Texture &getTextOne();
@@ -26,7 +27,7 @@ public:
 
 	list<OcasioCortez*>* getCortezPtr();
 
-	void setLevel(Level *newLevel);
+	void setLevel(Level* newLevel);
 	Level* getLevel();
-
+	void initializeLevel(Level* newLevel);
 };

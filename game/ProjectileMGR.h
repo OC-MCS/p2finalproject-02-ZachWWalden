@@ -15,13 +15,15 @@ private:
 	Texture cowFart;
 	Texture communistTurd;
 	CortezMGR* cortezMgr;
+	GameMgr* gameMGR;
 	Level* curLevel;
 public:
 // functions
 private:
 	void handleBombing();
+	void deleteProjectiles();
 public:
-	ProjectileMGR(CortezMGR* cortezPtr);
+	ProjectileMGR(CortezMGR* cortezPtr, GameMgr* gameMgr);
 	void addProjectile(Vector2f startPos, ProjectileEnum protType);
 	void checkCollision(MooCow& cow);
 	list<Projectile*>* getProjPtr();
