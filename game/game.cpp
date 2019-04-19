@@ -28,28 +28,35 @@ using namespace sf;
 
 int main()
 {
+	// window size constants
 	const int WINDOW_WIDTH = 800;
 	const int WINDOW_HEIGHT = 600;
 
+	// create the render window
 	RenderWindow window(VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Communist Invaders!!!");
 	// Limit the framerate to 60 frames per second
 	window.setFramerateLimit(60);
 
-	// load textures from file into memory. This doesn't display anything yet.
-	// Notice we do this *before* going into animation loop.
+	// create the player controlled cow
 	MooCow cow(window);
 	
+	// create the game manager
 	GameMgr gameMgr(STARTUP);
-
+	// create the ui handler
 	GameUI gameUI(&gameMgr);
-
-	CortezMGR cortezMgr(gameMgr.getCurLevel());
+	//create the manager for the list of enemies
+	CortezMGR cortezMgr(gameMgr.getCurLevel(), &gameMgr);
+	//  create the enemy list drawer class
 	CortezUI cortezUI(&cortezMgr);
-
+	// create the projectile list manager
 	ProjectileMGR protMgr(&cortezMgr, &gameMgr);
+	// create the class to draw the projectiles
 	ProjectileUI protUI(&protMgr);
-	Texture starsTexture;
-	if (!starsTexture.loadFromFile("Kicked_marx.png"))
+
+	// create background texture
+	Texture kickedMarx;
+	// load background texture from the file
+	if (!kickedMarx.loadFromFile("Kicked_marx.png"))
 	{
 		cout << "Unable to load stars texture!" << endl;
 		exit(EXIT_FAILURE);
@@ -59,7 +66,7 @@ int main()
 	// We have to give it a "texture" to specify what it looks like
 
 	Sprite background;
-	background.setTexture(starsTexture);
+	background.setTexture(kickedMarx);
 	// The texture file is 640x480, so scale it up a little to cover 800x600 window
 	background.setScale(1.5, 1.5);
 
@@ -83,9 +90,11 @@ int main()
 			{
 				if (event.key.code == Keyboard::Space)
 				{
+					// create position for new cow fart
 					pos = cow.getPos();
 					pos.y -= 28.0f;
 					pos.x += 6.0f;
+					// add the projectile to the list
    					protMgr.addProjectile(pos, COWFART);
 				}
 				
@@ -109,18 +118,23 @@ int main()
 		// will appear on top of background
 		window.draw(background);
 
-		cow.moveCow();
-		protMgr.checkCollision(cow);
-		// draw the ship on top of background 
-		// (the ship from previous frame was erased when we drew background)
+		
+		// if the game is in progress 
 		if (gameMgr.getCurState() == INPROGRESS)
 		{
+			// move the cow
 			cow.moveCow();
+			// check for projectile collisions
 			protMgr.checkCollision(cow);
+
+			//draw the cow
 			cow.draw(window);
+			// draw the enemies
 			cortezUI.draw(window);
+			// draw the projectiles
 			protUI.draw(window);
 		}
+		//draw the game's UI elements
 		gameUI.draw(window);
 		// end the current frame; this makes everything that we have 
 		// already "drawn" actually show up on the screen
@@ -135,4 +149,3 @@ int main()
 
 	return 0;
 }
-

@@ -147,6 +147,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="Barrier.cpp" />
+    <ClCompile Include="BarrierMGR.cpp" />
     <ClCompile Include="CortezMGR.cpp" />
     <ClCompile Include="CortezUI.cpp" />
     <ClCompile Include="game.cpp" />
@@ -164,6 +165,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Barrier.h" />
+    <ClInclude Include="barrierMGR.h" />
     <ClInclude Include="CortezMGR.h" />
     <ClInclude Include="CortezUI.h" />
     <ClInclude Include="gameMGR.h" />
