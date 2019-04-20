@@ -15,7 +15,7 @@ using namespace std;
 using namespace sf; 
 
 //============================================================
-// YOUR HEADER WITH YOUR NAME GOES HERE. PLEASE DO NOT FORGET THIS
+// Zachary Walden
 //============================================================
 
 // note: a Sprite represents an image on screen. A sprite knows and remembers its own position
